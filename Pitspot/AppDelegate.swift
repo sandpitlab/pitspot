@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     var window: UIWindow?
     var locationManager: CLLocationManager?
+    var lastProximity: CLProximity?
     
     
     func application(application: UIApplication,
@@ -28,9 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             
             // setting up CLLocationManager for foreground and/or background ranging and monitoring
             locationManager = CLLocationManager()
+            
             if(locationManager!.respondsToSelector("requestAlwaysAuthorization")) {
                 locationManager!.requestAlwaysAuthorization()
             }
+            
             locationManager!.delegate = self
             locationManager!.pausesLocationUpdatesAutomatically = false
             
@@ -98,6 +101,12 @@ extension AppDelegate: CLLocationManagerDelegate {
             if(beacons.count > 0) {
                 let nearestBeacon:CLBeacon = beacons[0] as CLBeacon
                 
+                if(nearestBeacon.proximity == lastProximity ||
+                    nearestBeacon.proximity == CLProximity.Unknown) {
+                        return;
+                }
+                lastProximity = nearestBeacon.proximity;
+                
                 switch nearestBeacon.proximity {
                 case CLProximity.Far:
                     message = "Far away from the beacon"
@@ -115,5 +124,25 @@ extension AppDelegate: CLLocationManagerDelegate {
             NSLog("%@", message)
             sendLocalNotificationWithMessage(message)
     }
+    
+    
+    func locationManager(manager: CLLocationManager!,
+        didEnterRegion region: CLRegion!) {
+            manager.startRangingBeaconsInRegion(region as CLBeaconRegion)
+            manager.startUpdatingLocation()
+            
+            NSLog("In the region")
+            sendLocalNotificationWithMessage("In the region")
+    }
+    
+    func locationManager(manager: CLLocationManager!,
+        didExitRegion region: CLRegion!) {
+            manager.stopRangingBeaconsInRegion(region as CLBeaconRegion)
+            manager.stopUpdatingLocation()
+            
+            NSLog("Out of the region")
+            sendLocalNotificationWithMessage("Out of the region")
+    }
+    
 }
 
