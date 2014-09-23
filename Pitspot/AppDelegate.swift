@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,9 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
+    func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
+            
+            let uuidString = "D57092AC-DFAA-446C-8EF3-C81AA22815B5"
+            let beaconIdentifier = "SandpitLab"
+            let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)
+            let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID, identifier: beaconIdentifier)
+            
+            return true
     }
 
     func applicationWillResignActive(application: UIApplication) {

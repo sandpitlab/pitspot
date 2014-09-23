@@ -13,6 +13,7 @@
 		4CC73E1419D1ACA300CB57EB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CC73E1319D1ACA300CB57EB /* Images.xcassets */; };
 		4CC73E1719D1ACA300CB57EB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CC73E1519D1ACA300CB57EB /* LaunchScreen.xib */; };
 		4CC73E2319D1ACA400CB57EB /* PitspotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC73E2219D1ACA400CB57EB /* PitspotTests.swift */; };
+		4CC73E2D19D1ADAA00CB57EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC73E2C19D1ADAA00CB57EB /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		4CC73E1C19D1ACA400CB57EB /* PitspotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PitspotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CC73E2119D1ACA400CB57EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4CC73E2219D1ACA400CB57EB /* PitspotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitspotTests.swift; sourceTree = "<group>"; };
+		4CC73E2C19D1ADAA00CB57EB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CC73E2D19D1ADAA00CB57EB /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +62,7 @@
 		4CC73DFE19D1ACA300CB57EB = {
 			isa = PBXGroup;
 			children = (
+				4CC73E2C19D1ADAA00CB57EB /* CoreLocation.framework */,
 				4CC73E0919D1ACA300CB57EB /* Pitspot */,
 				4CC73E1F19D1ACA400CB57EB /* PitspotTests */,
 				4CC73E0819D1ACA300CB57EB /* Products */,
@@ -161,6 +165,11 @@
 				TargetAttributes = {
 					4CC73E0619D1ACA300CB57EB = {
 						CreatedOnToolsVersion = 6.0.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					4CC73E1B19D1ACA400CB57EB = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -337,6 +346,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pitspot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -347,6 +357,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pitspot/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
