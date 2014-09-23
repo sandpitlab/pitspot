@@ -10,21 +10,50 @@ import UIKit
 import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+    
     var window: UIWindow?
-
-
+    var locationManager: CLLocationManager?
+    
+    
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
             
             let uuidString = "D57092AC-DFAA-446C-8EF3-C81AA22815B5"
             let beaconIdentifier = "SandpitLab"
             let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)
-            let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID, identifier: beaconIdentifier)
+            let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID,
+                identifier: beaconIdentifier)
+            
+            
+            // setting up CLLocationManager for foreground and/or background ranging and monitoring
+            locationManager = CLLocationManager()
+            if(locationManager!.respondsToSelector("requestAlwaysAuthorization")) {
+                locationManager!.requestAlwaysAuthorization()
+            }
+            locationManager!.delegate = self
+            locationManager!.pausesLocationUpdatesAutomatically = false
+            
+            locationManager!.startMonitoringForRegion(beaconRegion)
+            locationManager!.startRangingBeaconsInRegion(beaconRegion)
+            locationManager!.startUpdatingLocation()
+            
+            
+            // on iOS7 works fine, if iOS8 then asks for permission to send notification
+            // TODO: in production error handling for declined permissions should be handled
+            if(application.respondsToSelector("registerUserNotificationSettings:")) {
+                application.registerUserNotificationSettings(
+                    UIUserNotificationSettings(
+                        forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Sound,
+                        categories: nil
+                    )
+                )
+            }
+            
             
             return true
     }
+    
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -49,5 +78,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+
+// defining what happens when the region is entered
+extension AppDelegate: CLLocationManagerDelegate {
+    func sendLocalNotificationWithMessage(message: String!) {
+        let notification:UILocalNotification = UILocalNotification()
+        notification.alertBody = message
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
+    
+    func locationManager(manager: CLLocationManager!,
+        didRangeBeacons beacons: [AnyObject]!,
+        inRegion region: CLBeaconRegion!) {
+            NSLog("didRangeBeacons");
+            var message:String = ""
+            
+            if(beacons.count > 0) {
+                let nearestBeacon:CLBeacon = beacons[0] as CLBeacon
+                
+                switch nearestBeacon.proximity {
+                case CLProximity.Far:
+                    message = "Far away from the beacon"
+                case CLProximity.Near:
+                    message = "Near the beacon"
+                case CLProximity.Immediate:
+                    message = "Very close to the beacon"
+                case CLProximity.Unknown:
+                    return
+                }
+            } else {
+                message = "No beacons around"
+            }
+            
+            NSLog("%@", message)
+            sendLocalNotificationWithMessage(message)
+    }
 }
 
