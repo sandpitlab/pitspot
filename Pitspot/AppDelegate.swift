@@ -96,10 +96,6 @@ extension AppDelegate: CLLocationManagerDelegate {
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
             
-//            viewController.tableView!.reloadData()
-            
-            
-            NSLog("didRangeBeacons");
             var message:String = ""
             
             if(beacons.count > 0) {

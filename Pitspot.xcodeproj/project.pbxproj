@@ -416,6 +416,7 @@
 				4CC73E2819D1ACA400CB57EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4CC73E2919D1ACA400CB57EB /* Build configuration list for PBXNativeTarget "PitspotTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +425,7 @@
 				4CC73E2B19D1ACA400CB57EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

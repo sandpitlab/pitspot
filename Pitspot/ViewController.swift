@@ -12,10 +12,16 @@ import CoreLocation
 class ViewController: UIViewController {
 
     @IBOutlet var statusLbl: UILabel!
+    @IBOutlet var webView: UIWebView!
+    
+    let url = "http://matt.local:3000"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let requestURL = NSURL(string:url)
+        let request = NSURLRequest(URL: requestURL)
+        webView.loadRequest(request)
     }
 
     override func didReceiveMemoryWarning() {
