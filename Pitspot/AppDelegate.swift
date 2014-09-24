@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var locationManager: CLLocationManager?
     var lastProximity: CLProximity?
     
-    
     func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
             
@@ -118,13 +117,19 @@ extension AppDelegate: CLLocationManagerDelegate {
                     return
                 }
             } else {
+                
+                if(lastProximity == CLProximity.Unknown) {
+                    return;
+                }
+                
                 message = "No beacons around"
+                lastProximity = CLProximity.Unknown
             }
             
             NSLog("%@", message)
             sendLocalNotificationWithMessage(message)
             
-            // message to the UI (status label)
+            // passing message to the UI (status label)
             let viewController:ViewController = window!.rootViewController as ViewController
             viewController.statusLbl.text = message
     }
